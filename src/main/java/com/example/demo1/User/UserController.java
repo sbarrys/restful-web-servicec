@@ -1,7 +1,10 @@
 package com.example.demo1.User;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,8 +25,14 @@ public class UserController {
     }
 
     @PostMapping(path="/user")// 자바 객체가 아닌 JSON이나 xml 등 오브젝트형태를 받으려면 @RequestBody를 사용
-    public void createUser(@RequestBody User user){
-         userDao.save(user);
+    public ResponseEntity createUser(@RequestBody User user){
+         User savedUser= userDao.save(user);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand((savedUser.getId())) //앞의{}에 넣어준다.
+                .toUri();
+        return ResponseEntity.created(location).build(); //객체이외의 것을 반환해주고자 할때 responseEntity를 이용해서 반환해준다.
     }
     @PutMapping(path="/user/{id}")
     public void updateUser(@RequestBody User user){
