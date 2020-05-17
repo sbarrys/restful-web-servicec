@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -39,14 +40,27 @@ public class UserDao {
     public void update(User user_) {
         int id_=user_.getId();
         int idx_=0;
-        for(User user : users){ //user의 목록에 id가 동일한 사람이 있으면 반환
-
+        Iterator<User> it =users.iterator();
+        while(it.hasNext()){
+            User user= it.next();
             if(user.getId()==id_){
-                break;
+                it.remove();
+                users.add(user_);
+                return;
             }
-            idx_++;
         }
-        users.remove(idx_);
-        users.add(user_);
+        return;
+    }
+    public User deleteById(int id_){
+        Iterator<User> it=  users.iterator();
+        while(it.hasNext()){
+            User user= it.next();
+            if(user.getId()==id_){
+                it.remove();
+                return user;
+            }
+
+        }
+        return null;
     }
 }

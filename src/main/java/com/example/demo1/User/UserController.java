@@ -46,4 +46,8 @@ public class UserController {
         userDao.update(user);
 
     }
+    @DeleteMapping(path="/user/{id}")
+    public void deleteUser(@PathVariable int id){
+        userDao.deleteById(id);
+    }
 }
