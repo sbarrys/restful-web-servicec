@@ -1,0 +1,34 @@
+package com.example.demo1.User;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class UserController {
+    //생성자를 이용한 UserDao Bean객체의 의존성주입
+    private UserDao userDao;
+    public UserController(UserDao userDao){
+        this.userDao = userDao;
+    }
+
+    @GetMapping(path="/user")
+    public List<User> findAllUser(){
+        return userDao.findAll();
+    }
+    @GetMapping(path="/user/{id}") //PathVariable 로 들어온 string 형태의 id가 int 형태로 자동 변환되서 들어간다.
+    public User findById(@PathVariable int id){
+        return userDao.findById(id);
+    }
+
+    @PostMapping(path="/user")// 자바 객체가 아닌 JSON이나 xml 등 오브젝트형태를 받으려면 @RequestBody를 사용
+    public void createUser(@RequestBody User user){
+         userDao.save(user);
+    }
+    @PutMapping(path="/user/{id}")
+    public void updateUser(@RequestBody User user){
+        //DB를 사용하지 않으므로 간단하게 대체하는 방식으로 사용햇다.
+        userDao.update(user);
+
+    }
+}
