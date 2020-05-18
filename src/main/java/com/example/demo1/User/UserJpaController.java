@@ -1,6 +1,7 @@
 package com.example.demo1.User;
 
 import com.example.demo1.Exception.UserNotFoundException;
+import com.example.demo1.Post.Post;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -57,4 +58,14 @@ public class UserJpaController {
         return ResponseEntity.created(location).build();
     }
 
+
+    @GetMapping("/user/{id}/post")
+    public List<Post> findAllPostByUserId(@PathVariable int id){
+        //유저를 먼저 찾고 , 그 유저가 가지고 있는 게시물을 가져오면 된다.
+        Optional<User> user= userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException(String.format("ID[%s] not found",id));
+        }
+        return user.get().getPost();
+    }
 }

@@ -48,7 +48,7 @@ public class User {
 
     //유저한개당 포스트 0~n개//필수데이터 없어선 안됨.//post는 없어도됨 옵션데이터.
     @OneToMany(mappedBy = "user")
-    private List<Post> posts;
+    private List<Post> post;
 
     public User(int id, String name, Date joinDate, String password, String ssn) {
     }
