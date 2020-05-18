@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 //@JsonIgnoreProperties(value={"password","ssn"})
-@JsonFilter("UserDomainClass")
+//@JsonFilter("UserDomainClass")
 public class User {
 
     private Integer id;
