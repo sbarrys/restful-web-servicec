@@ -2,6 +2,8 @@ package com.example.demo1.User;
 
 import com.example.demo1.Exception.UserNotFoundException;
 import com.example.demo1.Post.Post;
+import com.example.demo1.Post.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,8 @@ import java.util.Optional;
 @RequestMapping("/jpa")
 public class UserJpaController {
     UserRepository userRepository;
-
+    @Autowired
+    PostRepository postRepository;
     public UserJpaController(UserRepository userRepository){
         this.userRepository= userRepository;
     }
@@ -67,5 +70,25 @@ public class UserJpaController {
             throw new UserNotFoundException(String.format("ID[%s] not found",id));
         }
         return user.get().getPost();
+    }
+    @PostMapping("/user/{id}/post")
+    public ResponseEntity<Post> createPost(@PathVariable int id,@RequestBody Post post){
+        //유저를찾고
+        Optional<User> user= userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException(String.format("ID[%s] not found",id));
+        }
+        //body로 들어온 post에는 유저내용이 없을것. id 만 pathvariable로 들어온다.
+        //따라서 post에 user설정
+        post.setUser(user.get());
+        Post savedPost=  postRepository.save(post);
+        //저장된 post의 id를 path에 이어 붙여서 반환
+        URI location =ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+
     }
 }

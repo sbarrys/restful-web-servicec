@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
