@@ -36,7 +36,10 @@ public class UserController_Admin {
     }
 
 
-    @GetMapping(path="/v1/user/{id}") //PathVariable 로 들어온 string 형태의 id가 int 형태로 자동 변환되서 들어간다.
+//    @GetMapping(path="/v1/user/{id}") //PathVariable 로 들어온 string 형태의 id가 int 형태로 자동 변환되서 들어간다.
+   // @GetMapping(value="/users/{id}",params="version=1")// /users/1/?version=1
+    //@GetMapping(value="/users/{id}",headers="X-API-VERSION=1")
+    @GetMapping(value="/v1/users/{id}",produces = "application/kty.company.appv1+json") //MIME TYPE
     public MappingJacksonValue findById(@PathVariable int id){
 
         User user = userDao.findById(id);
@@ -52,8 +55,11 @@ public class UserController_Admin {
 
         return mapping;
     }
-    @GetMapping(path="/v2/user/{id}") //PathVariable 로 들어온 string 형태의 id가 int 형태로 자동 변환되서 들어간다.
-    public MappingJacksonValue findByIdV2(@PathVariable int id){
+//    @GetMapping(path="/v2/user/{id}") //PathVariable 로 들어온 string 형태의 id가 int 형태로 자동 변환되서 들어간다.
+ //   @GetMapping(value="/users/{id}",params="version=2")
+//@GetMapping(value="/users/{id}",headers="X-API-VERSION=2")
+@GetMapping(value="/v1/users/{id}",produces = "application/kty.company.appv2+json")//MIME TYPE //헤더에 Accept:~~작성
+public MappingJacksonValue findByIdV2(@PathVariable int id){
 
         User user = userDao.findById(id);
         if(user==null){
