@@ -24,6 +24,7 @@ import java.util.Date;
 @Entity
 //@JsonIgnoreProperties(value={"password","ssn"})
 //@JsonFilter("UserDomainClass")
+
 public class User {
     @Id
     @GeneratedValue//이를 기반으로 엔티티테이블 생성, 자동으로 생성되는 값
