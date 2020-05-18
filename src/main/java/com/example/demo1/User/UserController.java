@@ -30,7 +30,7 @@ public class UserController {
         }
         return user;
     }
-
+//Jackson 라이브러리를 사용해서 외부 노출 데이터를 필터링 할 수 있다.
     @PostMapping(path="/user")// 자바 객체가 아닌 JSON이나 xml 등 오브젝트형태를 받으려면 @RequestBody를 사용
     public ResponseEntity createUser(@Valid @RequestBody User user){
          User savedUser= userDao.save(user);
